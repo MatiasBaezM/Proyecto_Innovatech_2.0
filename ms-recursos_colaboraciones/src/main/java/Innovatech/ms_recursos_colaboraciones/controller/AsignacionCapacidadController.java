@@ -35,6 +35,16 @@ public class AsignacionCapacidadController {
         return ResponseEntity.ok(asignacionService.save(asignacion));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AsignacionCapacidad> updateAsignacion(@PathVariable Long id, @RequestBody AsignacionCapacidad asignacion) {
+        return asignacionService.findById(id)
+                .map(existing -> {
+                    asignacion.setId(existing.getId());
+                    return ResponseEntity.ok(asignacionService.save(asignacion));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAsignacion(@PathVariable Long id) {
         if (asignacionService.findById(id).isPresent()) {
