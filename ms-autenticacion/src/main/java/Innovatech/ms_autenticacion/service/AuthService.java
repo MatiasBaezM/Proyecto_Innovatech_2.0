@@ -8,6 +8,7 @@ import Innovatech.ms_autenticacion.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,13 +19,13 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     public AuthResponse login(AuthRequest request) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByRutAndNombre(request.getRut(), request.getNombre());
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByRutAndClave(request.getRut(), request.getClave());
         
         if (usuarioOpt.isPresent()) {
             String token = jwtUtil.generateToken(request.getRut());
             return new AuthResponse(token);
         } else {
-            throw new RuntimeException("Credenciales inválidas: RUT o Nombre incorrectos");
+            throw new RuntimeException("Credenciales inválidas: RUT o Clave incorrectos");
         }
     }
 
@@ -33,5 +34,27 @@ public class AuthService {
             throw new RuntimeException("El usuario con este RUT ya existe");
         }
         return usuarioRepository.save(usuario);
+    }
+
+    public List<Usuario> getAllUsers() {
+        return usuarioRepository.findAll();
+    }
+
+    public void deleteUser(Long id) {
+        usuarioRepository.deleteById(id);
+    }
+
+    public Usuario updateUser(Long id, Usuario userDetails) {
+        Usuario user = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        user.setNombre(userDetails.getNombre());
+        user.setRut(userDetails.getRut());
+        user.setRol(userDetails.getRol());
+        if (userDetails.getClave() != null && !userDetails.getClave().isEmpty()) {
+            user.setClave(userDetails.getClave());
+        }
+        
+        return usuarioRepository.save(user);
     }
 }

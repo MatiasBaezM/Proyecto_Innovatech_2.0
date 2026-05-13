@@ -26,6 +26,10 @@ public class TrabajadorService {
         return trabajadorRepository.findByRut(rut);
     }
 
+    public Optional<Trabajador> findByEmail(String email) {
+        return trabajadorRepository.findByEmail(email);
+    }
+
     public Trabajador save(Trabajador trabajador) {
         return trabajadorRepository.save(trabajador);
     }
