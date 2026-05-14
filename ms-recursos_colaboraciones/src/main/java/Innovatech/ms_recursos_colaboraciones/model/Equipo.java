@@ -25,6 +25,9 @@ public class Equipo {
     private String nombre;
 
     private String descripcion;
+    
+    @Column(name = "proyecto_id")
+    private Long proyectoId;
 
     @ManyToMany
     @JoinTable(

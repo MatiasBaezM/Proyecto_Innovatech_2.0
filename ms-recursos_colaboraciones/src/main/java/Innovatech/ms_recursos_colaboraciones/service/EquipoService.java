@@ -22,6 +22,10 @@ public class EquipoService {
         return equipoRepository.findById(id);
     }
 
+    public Optional<Equipo> findByProyectoId(Long proyectoId) {
+        return equipoRepository.findByProyectoId(proyectoId);
+    }
+
     public Equipo save(Equipo equipo) {
         return equipoRepository.save(equipo);
     }

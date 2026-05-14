@@ -34,6 +34,10 @@ public class AsignacionCapacidadService {
         return asignacionRepository.save(asignacion);
     }
 
+    public List<AsignacionCapacidad> saveAll(List<AsignacionCapacidad> asignaciones) {
+        return asignacionRepository.saveAll(asignaciones);
+    }
+
     public void deleteById(Long id) {
         asignacionRepository.deleteById(id);
     }

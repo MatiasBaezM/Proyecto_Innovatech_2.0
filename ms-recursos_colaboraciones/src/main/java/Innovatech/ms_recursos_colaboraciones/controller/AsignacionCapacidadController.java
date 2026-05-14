@@ -35,6 +35,11 @@ public class AsignacionCapacidadController {
         return ResponseEntity.ok(asignacionService.save(asignacion));
     }
 
+    @PostMapping("/batch")
+    public ResponseEntity<List<AsignacionCapacidad>> createAsignacionesBatch(@RequestBody List<AsignacionCapacidad> asignaciones) {
+        return ResponseEntity.ok(asignacionService.saveAll(asignaciones));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<AsignacionCapacidad> updateAsignacion(@PathVariable Long id, @RequestBody AsignacionCapacidad asignacion) {
         return asignacionService.findById(id)

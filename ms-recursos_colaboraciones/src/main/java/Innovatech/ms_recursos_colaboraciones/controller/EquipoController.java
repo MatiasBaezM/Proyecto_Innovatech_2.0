@@ -27,8 +27,24 @@ public class EquipoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/proyecto/{proyectoId}")
+    public ResponseEntity<Equipo> getEquipoByProyectoId(@PathVariable Long proyectoId) {
+        Equipo equipo = equipoService.findByProyectoId(proyectoId).orElse(null);
+        return ResponseEntity.ok(equipo);
+    }
+
     @PostMapping
     public ResponseEntity<Equipo> createEquipo(@RequestBody Equipo equipo) {
+        if (equipo.getProyectoId() != null) {
+            java.util.Optional<Equipo> existing = equipoService.findByProyectoId(equipo.getProyectoId());
+            if (existing.isPresent()) {
+                Equipo toUpdate = existing.get();
+                toUpdate.setNombre(equipo.getNombre());
+                toUpdate.setDescripcion(equipo.getDescripcion());
+                toUpdate.setTrabajadores(equipo.getTrabajadores());
+                return ResponseEntity.ok(equipoService.save(toUpdate));
+            }
+        }
         return ResponseEntity.ok(equipoService.save(equipo));
     }
 
