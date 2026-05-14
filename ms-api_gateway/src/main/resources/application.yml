@@ -7,15 +7,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: auth-service
-          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
-          predicates:
-            - Path=/auth/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback
+        
+        
 
         - id: recursos-colaboraciones-service
           uri: ${RECURSOS_COLABORACIONES_SERVICE_URL:http://localhost:8082}
